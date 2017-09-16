@@ -1,6 +1,6 @@
 env:
    global:
-     - CONAN_REFERENCE: "Qt/5.8.0"
+     - CONAN_REFERENCE: "Qt/5.9.1"
      - CONAN_USERNAME: "osechet"
      - CONAN_CHANNEL: "testing"
      - CONAN_TOTAL_PAGES: 2
@@ -59,6 +59,10 @@ matrix:
       - <<: *osx
         osx_image: xcode8.3
         env: CONAN_APPLE_CLANG_VERSIONS=8.1 CONAN_CURRENT_PAGE=2
+
+      - <<: *osx
+        osx_image: xcode9
+        env: CONAN_APPLE_CLANG_VERSIONS=9.0 CONAN_CURRENT_PAGE=1
 
 install:
   - chmod +x .travis/install.sh

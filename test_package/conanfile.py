@@ -4,12 +4,12 @@ from conans import ConanFile, CMake
 
 # This easily allows to copy the package in other user or channel
 CHANNEL = os.getenv("CONAN_CHANNEL", "testing")
-USERNAME = os.getenv("CONAN_USERNAME", "osechet")
+USERNAME = os.getenv("CONAN_USERNAME", "cinderblocks")
 
 class QtTestConan(ConanFile):
     """ Qt Conan package test """
 
-    requires = "Qt/5.8.0@%s/%s" % (USERNAME, CHANNEL)
+    requires = "Qt/5.9.1@%s/%s" % (USERNAME, CHANNEL)
     settings = "os", "compiler", "build_type", "arch"
     generators = "cmake", "virtualenv"
 

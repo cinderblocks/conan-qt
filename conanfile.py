@@ -31,7 +31,7 @@ class QtConan(ConanFile):
     """ Qt Conan package """
 
     name = "Qt"
-    version = "5.8.0"
+    version = "5.9.1"
     description = "Conan.io package for Qt library."
     source_dir = "qt5"
     settings = "os", "arch", "compiler", "build_type"
@@ -49,10 +49,11 @@ class QtConan(ConanFile):
         "webengine": [True, False],
         "websockets": [True, False],
         "xmlpatterns": [True, False],
-        "openssl": ["no", "yes", "linked"]
+        "openssl": ["no", "yes", "linked"],
+        "commercial": [True, False]
     }
-    default_options = "shared=True", "opengl=desktop", "canvas3d=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no"
-    url = "http://github.com/osechet/conan-qt"
+    default_options = "shared=True", "opengl=desktop", "canvas3d=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
+    url = "http://github.com/cinderblocks/conan-qt"
     license = "http://doc.qt.io/qt-5/lgpl.html"
     short_paths = True
 
@@ -139,10 +140,12 @@ class QtConan(ConanFile):
         """ Define your project building. You decide the way of building it
             to reuse it later in any other project.
         """
-        args = ["-opensource", "-confirm-license", "-nomake examples", "-nomake tests",
+        args = ["-confirm-license", "-nomake examples", "-nomake tests",
                 "-prefix %s" % self.package_folder]
         if not self.options.shared:
             args.insert(0, "-static")
+        if not self.options.commercial:
+            args.append("-opensource")
         if self.settings.build_type == "Debug":
             args.append("-debug")
         else:
@@ -171,6 +174,8 @@ class QtConan(ConanFile):
                              '%s/qtrepotools/bin' % self.conanfile_directory]})
         # it seems not enough to set the vcvars for older versions
         if self.settings.compiler == "Visual Studio":
+            if self.settings.compiler.version == "15":
+                env.update({'QMAKESPEC': 'win32-msvc2017'])
             if self.settings.compiler.version == "14":
                 env.update({'QMAKESPEC': 'win32-msvc2015'})
                 args += ["-platform win32-msvc2015"]
