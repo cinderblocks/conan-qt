@@ -142,10 +142,10 @@ class QtConan(ConanFile):
         """
         args = ["-confirm-license", "-nomake examples", "-nomake tests",
                 "-prefix %s" % self.package_folder]
+        if not self.options.commercial:
+            args.insert(0, "-opensource")
         if not self.options.shared:
             args.insert(0, "-static")
-        if not self.options.commercial:
-            args.append("-opensource")
         if self.settings.build_type == "Debug":
             args.append("-debug")
         else:
@@ -273,6 +273,6 @@ class QtConan(ConanFile):
             self.cpp_info.libs += ["Qt5%s%s" % (lib, suffix)]
             self.cpp_info.includedirs += ["include/Qt%s" % lib]
 
-        if self.settings.os == "Windows":
-            # Some missing shared libs inside QML and others, but for the test it works
-            self.env_info.path.append(os.path.join(self.package_folder, "bin"))
+        #if self.settings.os == "Windows":
+        #    # Some missing shared libs inside QML and others, but for the test it works
+        #    self.env_info.path.append(os.path.join(self.package_folder, "bin"))
