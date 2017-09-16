@@ -144,6 +144,8 @@ class QtConan(ConanFile):
                 "-prefix %s" % self.package_folder]
         if not self.options.commercial:
             args.insert(0, "-opensource")
+        else:
+            args.insert(0, "-commercial")
         if not self.options.shared:
             args.insert(0, "-static")
         if self.settings.build_type == "Debug":
