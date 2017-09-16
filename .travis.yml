@@ -1,7 +1,7 @@
 env:
    global:
      - CONAN_REFERENCE: "Qt/5.9.1"
-     - CONAN_USERNAME: "cinderblocks"
+     - CONAN_USERNAME: "ragnarok"
      - CONAN_CHANNEL: "testing"
      - CONAN_TOTAL_PAGES: 2
 
