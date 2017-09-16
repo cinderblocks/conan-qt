@@ -273,6 +273,6 @@ class QtConan(ConanFile):
             self.cpp_info.libs += ["Qt5%s%s" % (lib, suffix)]
             self.cpp_info.includedirs += ["include/Qt%s" % lib]
 
-        #if self.settings.os == "Windows":
-        #    # Some missing shared libs inside QML and others, but for the test it works
-        #    self.env_info.path.append(os.path.join(self.package_folder, "bin"))
+        if self.settings.os == "Windows":
+            # Some missing shared libs inside QML and others, but for the test it works
+            self.env_info.path.append(os.path.join(self.package_folder, "bin"))
