@@ -175,7 +175,7 @@ class QtConan(ConanFile):
         # it seems not enough to set the vcvars for older versions
         if self.settings.compiler == "Visual Studio":
             if self.settings.compiler.version == "15":
-                env.update({'QMAKESPEC': 'win32-msvc2017'])
+                env.update({'QMAKESPEC': 'win32-msvc2017'})
             if self.settings.compiler.version == "14":
                 env.update({'QMAKESPEC': 'win32-msvc2015'})
                 args += ["-platform win32-msvc2015"]
