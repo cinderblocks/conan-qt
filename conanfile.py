@@ -88,9 +88,9 @@ class QtConan(ConanFile):
     def requirements(self):
         if self.settings.os == "Windows":
             if self.options.openssl == "yes":
-                self.requires("OpenSSL/1.1.0f@slidewave/testing", dev=True)
+                self.requires("OpenSSL/1.0.2l@conan/stable", dev=True)
             elif self.options.openssl == "linked":
-                self.requires("OpenSSL/1.1.0f@slidewave/testing")
+                self.requires("OpenSSL/1.0.2l@conan/stable")
 
     def source(self):
         submodules = ["qtbase"]
@@ -197,15 +197,18 @@ class QtConan(ConanFile):
         vcvars = tools.vcvars_command(self.settings)
 
         args += ["-opengl %s" % self.options.opengl]
+
         if self.options.openssl == "no":
             args += ["-no-openssl"]
         elif self.options.openssl == "yes":
-            args += ["-openssl"]
+            openssl_info = self.deps_cpp_info["OpenSSL"]
+            args += [("-openssl -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
         else:
-            args += ["-openssl-linked"]
+            openssl_info = self.deps_cpp_info["OpenSSL"]
+            args += [("-openssl-linked -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
 
         self.run("cd %s && %s && set" % (self.source_dir, vcvars))
-        self.run("cd %s && %s && configure %s"
+        self.run("cd %s && %s && configure -v %s"
                  % (self.source_dir, vcvars, " ".join(args)))
         self.run("cd %s && %s && %s %s"
                  % (self.source_dir, vcvars, build_command, " ".join(build_args)))
