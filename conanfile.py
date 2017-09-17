@@ -88,9 +88,9 @@ class QtConan(ConanFile):
     def requirements(self):
         if self.settings.os == "Windows":
             if self.options.openssl == "yes":
-                self.requires("libressl/2.5.3@hoxnox/testing", dev=True)
+                self.requires("OpenSSL/1.1.0f@slidewave/testing", dev=True)
             elif self.options.openssl == "linked":
-                self.requires("libressl/2.5.3@hoxnox/testing")
+                self.requires("OpenSSL/1.1.0f@slidewave/testing")
 
     def source(self):
         submodules = ["qtbase"]
