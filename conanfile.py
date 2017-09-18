@@ -55,7 +55,7 @@ class QtConan(ConanFile):
         "openssl": ["no", "yes", "linked"],
         "commercial": [True, False]
     }
-    default_options = "shared=True", "opengl=desktop", "qt3d=False", "canvas3d=False", "declarative=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "quickcontrols2=False", "quickcontrols2=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
+    default_options = "shared=True", "opengl=desktop", "qt3d=False", "canvas3d=False", "declarative=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "quickcontrols=False", "quickcontrols2=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
     url = "http://github.com/cinderblocks/conan-qt"
     license = "http://doc.qt.io/qt-5/lgpl.html"
     short_paths = True
