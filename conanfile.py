@@ -88,7 +88,7 @@ class QtConan(ConanFile):
     def requirements(self):
         if self.settings.os == "Windows":
             if self.options.openssl == "yes":
-                self.requires("OpenSSL/1.0.2l@conan/stable", dev=True)
+                self.requires("OpenSSL/1.0.2l@conan/stable")
             elif self.options.openssl == "linked":
                 self.requires("OpenSSL/1.0.2l@conan/stable")
 
@@ -202,10 +202,10 @@ class QtConan(ConanFile):
             args += ["-no-openssl"]
         elif self.options.openssl == "yes":
             openssl_info = self.deps_cpp_info["OpenSSL"]
-            args += [("-openssl -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
+            args += [("-openssl OPENSSL_LIBS=\"-lssleay32 -llibeay32\" -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
         else:
             openssl_info = self.deps_cpp_info["OpenSSL"]
-            args += [("-openssl-linked -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
+            args += [("-openssl-linked OPENSSL_LIBS=\"-lssleay32 -llibeay32\" -I\"%s\" -L\"%s\"" % (openssl_info.include_paths[0], openssl_info.lib_paths[0]))]
 
         self.run("cd %s && %s && set" % (self.source_dir, vcvars))
         self.run("cd %s && %s && configure -v %s"
@@ -255,6 +255,14 @@ class QtConan(ConanFile):
         self.run("cd %s && ./configure %s" % (self.source_dir, " ".join(args)))
         self.run("cd %s && make -j %s" % (self.source_dir, str(cpu_count())))
         self.run("cd %s && make install" % (self.source_dir))
+
+    def package(self):
+        self.copy("*.h", dst="include", src="src")
+        self.copy("*.lib", dst="lib", keep_path=False)
+        self.copy("*.dll", dst="lib", keep_path=False)
+        self.copy("*.dylib*", dst="lib", keep_path=False)
+        self.copy("*.so", dst="lib", keep_path=False)
+        self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
         libs = ['Concurrent', 'Core', 'DBus',
