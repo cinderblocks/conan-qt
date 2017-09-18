@@ -1,4 +1,3 @@
-
 import os
 from distutils.spawn import find_executable
 from conans import AutoToolsBuildEnvironment, ConanFile, tools, VisualStudioBuildEnvironment
@@ -38,11 +37,15 @@ class QtConan(ConanFile):
     options = {
         "shared": [True, False],
         "opengl": ["desktop", "dynamic"],
+        "qt3d": [True, False],
         "canvas3d": [True, False],
+        "declarative": [True, False],
         "gamepad": [True, False],
         "graphicaleffects": [True, False],
         "imageformats": [True, False],
         "location": [True, False],
+        "quickcontrols": [True, False],
+        "quickcontrols2": [True, False],
         "serialport": [True, False],
         "svg": [True, False],
         "tools": [True, False],
@@ -52,7 +55,7 @@ class QtConan(ConanFile):
         "openssl": ["no", "yes", "linked"],
         "commercial": [True, False]
     }
-    default_options = "shared=True", "opengl=desktop", "canvas3d=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
+    default_options = "shared=True", "opengl=desktop", "qt3d=False", "canvas3d=False", "declarative=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "quickcontrols2=False", "quickcontrols2=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
     url = "http://github.com/cinderblocks/conan-qt"
     license = "http://doc.qt.io/qt-5/lgpl.html"
     short_paths = True
@@ -95,8 +98,12 @@ class QtConan(ConanFile):
     def source(self):
         submodules = ["qtbase"]
 
+        if self.options.qt3d:
+            submodules.append("qt3d")
         if self.options.canvas3d:
             submodules.append("qtcanvas3d")
+        if self.options.declarative:
+            submodules.append("qtdeclarative")
         if self.options.gamepad:
             submodules.append("qtgamepad")
         if self.options.graphicaleffects:
@@ -105,6 +112,10 @@ class QtConan(ConanFile):
             submodules.append("qtimageformats")
         if self.options.location:
             submodules.append("qtlocation")
+        if self.options.quickcontrols:
+            submodules.append("qtquickcontrols")
+        if self.options.quickcontrols2:
+            submodules.append("qtquickcontrols2")
         if self.options.serialport:
             submodules.append("qtserialport")
         if self.options.svg:
