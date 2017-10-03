@@ -37,25 +37,51 @@ class QtConan(ConanFile):
     options = {
         "shared": [True, False],
         "opengl": ["desktop", "dynamic"],
+        "openssl": ["no", "yes", "linked"],
+        "commercial": [True, False]
+    }
+    default_options = "shared=True", "opengl=desktop", "openssl=no", "commercial=False"
+    module_options = {
         "qt3d": [True, False],
         "canvas3d": [True, False],
+        "charts": [True, False],
+        "cloudmessaging": [True, False],
+        "datavis3d": [True, False],
         "declarative": [True, False],
+        "feedback": [True, False],
         "gamepad": [True, False],
         "graphicaleffects": [True, False],
         "imageformats": [True, False],
         "location": [True, False],
+        "modelling": [True, False],
+        "multimedia": [True, False],
+        "networkauth": [True, False],
+        "osextras": [True, False],
+        "pim": [True, False],
+        "purchasing": [True, False],
         "quickcontrols": [True, False],
         "quickcontrols2": [True, False],
+        "script": [True, False],
+        "scxml": [True, False],
+        "sensors": [True, False],
+        "serialbus": [True, False],
         "serialport": [True, False],
+        "speech": [True, False],
         "svg": [True, False],
+        "styleplugins": [True, False],
+        "systems": [True, False],
         "tools": [True, False],
+        "virtualkeyboard": [True, False],
+        "webchannel": [True, False],
         "webengine": [True, False],
         "websockets": [True, False],
-        "xmlpatterns": [True, False],
-        "openssl": ["no", "yes", "linked"],
-        "commercial": [True, False]
+        "webview": [True, False],
+        "xmlpatterns": [True, False]
     }
-    default_options = "shared=True", "opengl=desktop", "qt3d=False", "canvas3d=False", "declarative=False", "gamepad=False", "graphicaleffects=False", "imageformats=False", "location=False", "quickcontrols=False", "quickcontrols2=False", "serialport=False", "svg=False", "tools=False", "webengine=False", "websockets=False", "xmlpatterns=False", "openssl=no", "commercial=False"
+    default_module_options = "=False\n".join(module_options.keys()) + "=False\n"
+    options.update(module_options)
+    default_options += default_module_options
+
     url = "http://github.com/cinderblocks/conan-qt"
     license = "http://doc.qt.io/qt-5/lgpl.html"
     short_paths = True
@@ -102,8 +128,16 @@ class QtConan(ConanFile):
             submodules.append("qt3d")
         if self.options.canvas3d:
             submodules.append("qtcanvas3d")
+        if self.options.charts:
+            submodules.append("qtcharts")
+        if self.options.cloudmessaging:
+            submodules.append("qtcloudmessaging")
+        if self.options.datavis3d:
+            submodules.append("qtdatavis3d")
         if self.options.declarative:
             submodules.append("qtdeclarative")
+        if self.options.feedback:
+            submodules.append("qtfeedback")
         if self.options.gamepad:
             submodules.append("qtgamepad")
         if self.options.graphicaleffects:
@@ -112,22 +146,60 @@ class QtConan(ConanFile):
             submodules.append("qtimageformats")
         if self.options.location:
             submodules.append("qtlocation")
+        if self.options.modelling:
+            submodules.append("qtmodelling")
+        if self.options.multimedia:
+            submodules.append("qtmultimedia")
+        if self.options.networkauth:
+            submodules.append("qtnetworkauth")
+        if self.options.pim:
+            submodules.append("qtpim")
+        if self.options.purchasing:
+            submodules.append("qtpurchasing")
         if self.options.quickcontrols:
             submodules.append("qtquickcontrols")
         if self.options.quickcontrols2:
             submodules.append("qtquickcontrols2")
+        if self.options.script:
+            submodules.append("qtscript")
+        if self.options.scxml:
+            submodules.append("qtscxml")
+        if self.options.sensors:
+            submodules.append("qtsensors")
+        if self.options.serialbus:
+            submodules.append("qtserialbus")
         if self.options.serialport:
             submodules.append("qtserialport")
+        if self.options.speech:
+            submodules.append("qtspeech")
         if self.options.svg:
             submodules.append("qtsvg")
+        if self.options.styleplugins:
+            submodules.append("qtstyleplugins")
+        if self.options.systems:
+            submodules.append("qtsystems")
         if self.options.tools:
             submodules.append("qttools")
+        if self.options.virtualkeyboard:
+            submodules.append("qtvirtualkeyboard")
+        if self.options.webchannel:
+            submodules.append("qtwebchannel")
         if self.options.webengine:
             submodules.append("qtwebengine")
         if self.options.websockets:
             submodules.append("qtwebsockets")
+        if self.options.webview:
+            submodules.append("qtwebview")
         if self.options.xmlpatterns:
             submodules.append("qtxmlpatterns")
+        if self.options.osextras:
+            if self.settings.os == "Windows":
+                submodules.append("qtwinextras")
+            elif self.settings.os == "Linux":
+                submodules.append("qtx11extras")
+            elif self.settings.os == "Macos":
+                submodules.append("qtmacextras")
+            
 
         major = ".".join(self.version.split(".")[:2])
         self.run("git clone https://code.qt.io/qt/qt5.git")
