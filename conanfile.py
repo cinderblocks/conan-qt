@@ -40,10 +40,7 @@ class QtConan(ConanFile):
         "openssl": ["no", "yes", "linked"],
         "commercial": [True, False]
     }
-    default_options = "shared=True"
-    default_options += "opengl=desktop"
-    default_options += "openssl=no"
-    default_options += "commercial=False"
+    default_options = "shared=True\nopengl=desktop\nopenssl=no\ncommercial=False\n"
     module_options = {
         "qt3d": [True, False],
         "canvas3d": [True, False],
@@ -81,7 +78,7 @@ class QtConan(ConanFile):
         "webview": [True, False],
         "xmlpatterns": [True, False]
     }
-    default_module_options = "=False\n".join(module_options.keys()) + "=False\n"
+    default_module_options = "=False\n".join(module_options.keys()) + "=False"
     options.update(module_options)
     default_options += default_module_options
 
