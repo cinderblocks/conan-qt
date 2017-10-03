@@ -40,7 +40,10 @@ class QtConan(ConanFile):
         "openssl": ["no", "yes", "linked"],
         "commercial": [True, False]
     }
-    default_options = "shared=True", "opengl=desktop", "openssl=no", "commercial=False"
+    default_options = "shared=True"
+    default_options += "opengl=desktop"
+    default_options += "openssl=no"
+    default_options += "commercial=False"
     module_options = {
         "qt3d": [True, False],
         "canvas3d": [True, False],
